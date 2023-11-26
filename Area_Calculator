@@ -1,0 +1,256 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Arafat extends JFrame {
+
+    private JTextField lengthField, widthField, baseField, heightField, sideField, radiusField, majorAxisField, minorAxisField;
+    private JComboBox<String> shapeComboBox, inputUnitComboBox, outputUnitComboBox;
+    private JTextArea resultArea;
+
+    private static final double METER_CONVERSION = 1.0;
+    private static final double INCH_CONVERSION = 0.0254;
+    private static final double FOOT_CONVERSION = 0.3048;
+    private static final double MILLIMETER_CONVERSION = 0.001;
+    private static final double DECIMETER_CONVERSION = 0.1;
+    private static final double KILOMETER_CONVERSION = 1000.0;
+    private static final double YARD_CONVERSION = 0.9144;
+    private static final double MILE_CONVERSION = 1609.34;
+    private static final double CENTIMETER_CONVERSION = 0.01;
+
+    public Arafat() {
+        super("Area Calculator");
+        ImageIcon icon = new ImageIcon("arafat.jpg");
+        setIconImage(icon.getImage());
+        setSize(500, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(null);
+        JLabel shapeLabel = new JLabel("Select Shape:");
+        shapeLabel.setBounds(20, 20, 120, 20);
+
+        String[] shapes = {"Square", "Rectangle", "Triangle", "Circle", "Trapezoid", "Sector", "Octagon", "Ellipse", "Parallelogram"};
+        shapeComboBox = new JComboBox<>(shapes);
+        shapeComboBox.setBounds(150, 20, 120, 20);
+
+        JLabel lengthLabel = new JLabel("Length:");
+        lengthLabel.setBounds(20, 50, 80, 20);
+        lengthField = new JTextField();
+        lengthField.setBounds(150, 50, 100, 20);
+
+        JLabel widthLabel = new JLabel("Width:");
+        widthLabel.setBounds(20, 80, 80, 20);
+        widthField = new JTextField();
+        widthField.setBounds(150, 80, 100, 20);
+
+        JLabel baseLabel = new JLabel("Base:");
+        baseLabel.setBounds(20, 110, 80, 20);
+        baseField = new JTextField();
+        baseField.setBounds(150, 110, 100, 20);
+
+        JLabel heightLabel = new JLabel("Height:");
+        heightLabel.setBounds(20, 140, 80, 20);
+        heightField = new JTextField();
+        heightField.setBounds(150, 140, 100, 20);
+
+        JLabel sideLabel = new JLabel("Side:");
+        sideLabel.setBounds(20, 170, 80, 20);
+        sideField = new JTextField();
+        sideField.setBounds(150, 170, 100, 20);
+
+        JLabel radiusLabel = new JLabel("Radius:");
+        radiusLabel.setBounds(20, 200, 80, 20);
+        radiusField = new JTextField();
+        radiusField.setBounds(150, 200, 100, 20);
+
+        JLabel majorAxisLabel = new JLabel("Major Axis:");
+        majorAxisLabel.setBounds(20, 230, 80, 20);
+        majorAxisField = new JTextField();
+        majorAxisField.setBounds(150, 230, 100, 20);
+
+        JLabel minorAxisLabel = new JLabel("Minor Axis:");
+        minorAxisLabel.setBounds(20, 260, 80, 20);
+        minorAxisField = new JTextField();
+        minorAxisField.setBounds(150, 260, 100, 20);
+
+        JLabel inputUnitLabel = new JLabel("Input Unit:");
+        inputUnitLabel.setBounds(20, 290, 80, 20);
+        String[] units = {"m", "in", "ft", "mm", "dm", "km", "yd", "mi", "cm"};
+        inputUnitComboBox = new JComboBox<>(units);
+        inputUnitComboBox.setBounds(150, 290, 60, 20);
+
+        JLabel outputUnitLabel = new JLabel("Output Unit:");
+        outputUnitLabel.setBounds(220, 290, 80, 20);
+        outputUnitComboBox = new JComboBox<>(units);
+        outputUnitComboBox.setBounds(320, 290, 60, 20);
+
+        JButton calculateButton = new JButton("Calculate");
+        calculateButton.setBounds(20, 320, 100, 30);
+
+        resultArea = new JTextArea();
+        resultArea.setBounds(250, 50, 250, 250);
+        resultArea.setEditable(false);
+        calculateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                calculateArea();
+            }
+        });
+        add(shapeLabel);
+        add(shapeComboBox);
+        add(lengthLabel);
+        add(lengthField);
+        add(widthLabel);
+        add(widthField);
+        add(baseLabel);
+        add(baseField);
+        add(heightLabel);
+        add(heightField);
+        add(sideLabel);
+        add(sideField);
+        add(radiusLabel);
+        add(radiusField);
+        add(majorAxisLabel);
+        add(majorAxisField);
+        add(minorAxisLabel);
+        add(minorAxisField);
+        add(inputUnitLabel);
+        add(inputUnitComboBox);
+        add(outputUnitLabel);
+        add(outputUnitComboBox);
+        add(calculateButton);
+        add(resultArea);
+    }
+
+    private void calculateArea() {
+        double inputValue = 0;
+
+        try {
+            switch (inputUnitComboBox.getSelectedItem().toString()) {
+                case "m":
+                    inputValue = Double.parseDouble(getSelectedTextField().getText());
+                    break;
+                case "in":
+                    inputValue = Double.parseDouble(getSelectedTextField().getText()) * INCH_CONVERSION;
+                    break;
+                case "ft":
+                    inputValue = Double.parseDouble(getSelectedTextField().getText()) * FOOT_CONVERSION;
+                    break;
+                case "mm":
+                    inputValue = Double.parseDouble(getSelectedTextField().getText()) * MILLIMETER_CONVERSION;
+                    break;
+                case "dm":
+                    inputValue = Double.parseDouble(getSelectedTextField().getText()) * DECIMETER_CONVERSION;
+                    break;
+                case "km":
+                    inputValue = Double.parseDouble(getSelectedTextField().getText()) * KILOMETER_CONVERSION;
+                    break;
+                case "yd":
+                    inputValue = Double.parseDouble(getSelectedTextField().getText()) * YARD_CONVERSION;
+                    break;
+                case "mi":
+                    inputValue = Double.parseDouble(getSelectedTextField().getText()) * MILE_CONVERSION;
+                    break;
+                case "cm":
+                    inputValue = Double.parseDouble(getSelectedTextField().getText()) * CENTIMETER_CONVERSION;
+                    break;
+            }
+        } catch (NumberFormatException ex) {
+            resultArea.setText("Invalid input. Please enter a valid number.");
+            return;
+        }
+
+        double area = 0;
+        String outputUnit = outputUnitComboBox.getSelectedItem().toString();
+
+        switch (shapeComboBox.getSelectedItem().toString()) {
+            case "Square":
+                area = inputValue * inputValue;
+                break;
+            case "Rectangle":
+                area = Double.parseDouble(lengthField.getText()) * Double.parseDouble(widthField.getText());
+                break;
+            case "Triangle":
+                area = 0.5 * Double.parseDouble(baseField.getText()) * Double.parseDouble(heightField.getText());
+                break;
+            case "Circle":
+                area = Math.PI * Math.pow(Double.parseDouble(radiusField.getText()), 2);
+                break;
+            case "Trapezoid":
+                area = 0.5 * (Double.parseDouble(baseField.getText()) + Double.parseDouble(sideField.getText())) *
+                        Double.parseDouble(heightField.getText());
+                break;
+            case "Sector":
+                area = (Double.parseDouble(radiusField.getText()) * Double.parseDouble(radiusField.getText()) *
+                        Double.parseDouble(majorAxisField.getText())) / 2;
+                break;
+            case "Octagon":
+                area = 2 * (1 + Math.sqrt(2)) * Double.parseDouble(sideField.getText()) * Double.parseDouble(sideField.getText());
+                break;
+            case "Ellipse":
+                area = Math.PI * Double.parseDouble(majorAxisField.getText()) * Double.parseDouble(minorAxisField.getText());
+                break;
+            case "Parallelogram":
+                area = Double.parseDouble(baseField.getText()) * Double.parseDouble(heightField.getText());
+                break;
+        }
+
+        switch (outputUnit) {
+            case "in":
+                area /= INCH_CONVERSION;
+                break;
+            case "ft":
+                area /= FOOT_CONVERSION;
+                break;
+            case "mm":
+                area /= MILLIMETER_CONVERSION;
+                break;
+            case "dm":
+                area /= DECIMETER_CONVERSION;
+                break;
+            case "km":
+                area /= KILOMETER_CONVERSION;
+                break;
+            case "yd":
+                area /= YARD_CONVERSION;
+                break;
+            case "mi":
+                area /= MILE_CONVERSION;
+                break;
+            case "cm":
+                area /= CENTIMETER_CONVERSION;
+                break;
+        }
+
+        resultArea.setText("Area: " + area + " " + outputUnit + "²");
+    }
+
+    private JTextField getSelectedTextField() {
+        String selectedShape = shapeComboBox.getSelectedItem().toString();
+        switch (selectedShape) {
+            case "Square":
+            case "Rectangle":
+            case "Parallelogram":
+                return lengthField;
+            case "Triangle":
+            case "Trapezoid":
+                return baseField;
+            case "Circle":
+            case "Sector":
+                return radiusField;
+            case "Octagon":
+                return sideField;
+            case "Ellipse":
+                return majorAxisField;
+            default:
+                return lengthField;
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new Arafat().setVisible(true);
+            }
+        });
+    }
+}
